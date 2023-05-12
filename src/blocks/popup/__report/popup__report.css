@@ -1,0 +1,7 @@
+.popup__report {
+    width: 430px;
+    height: 330px;
+    border: solid 1px red;
+    margin: auto;
+    background-color: #FFFFFF;
+}
