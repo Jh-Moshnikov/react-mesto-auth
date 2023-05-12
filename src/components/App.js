@@ -43,6 +43,7 @@ function App() {
         await register(email, password)
         setIsOk(true);
         setIsInfoToolTipOpen(true);
+        navigate("/sign-in");
     } catch (e) {
         console.warn(e);
         setIsOk(false);
@@ -67,22 +68,6 @@ const handleLogin = async (email, password) => {
   }
 }
 
-/*function handleLogin(email, password) {
-  login(email, password)
-    .then(res => {
-      if (res) {
-        setIsLoggedIn(true);
-        localStorage.setItem('jwt', res.token);
-        setIsInfoToolTipOpen(true);
-        history.push('./');
-      }
-    })
-    .catch(err => {
-      setIsOk(false);
-      setIsInfoToolTipOpen(true);
-      console.log(err);
-    })
-}*/
 
 const checkToken = async () => {
   const token = localStorage.getItem('token');
@@ -103,6 +88,12 @@ useEffect(() => {
   checkToken();
   navigate("/");
 }, [])
+
+const logout = () => {
+  localStorage.removeItem('token');
+  setUserEmail('');
+  setIsLoggedIn(false);
+}
 
 
 
@@ -206,7 +197,7 @@ useEffect(() => {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         <div className="page">
-          <Header />
+          <Header email={userEmail} logout={logout} />
           <Routes>
             <Route path='/'
               element={   
