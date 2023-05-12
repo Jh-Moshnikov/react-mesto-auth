@@ -3,19 +3,16 @@ import '../index.css';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-/*import PopupWithForm from './PopupWithForm';*/
 import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import AddCardPopup from "./AddCardPopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import CurrentUserContext from "../context/CurrentUserContext";
 import { api } from "../utils/Api";
-/*import Card from "./Card";*/
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import Register from "./Register";
 import Login from "./Login";
-import InfoToolTip from "./InfoToolTip";
 import {register, login, auth} from '../utils/registerApi';
 
 function App() {
@@ -31,7 +28,7 @@ function App() {
   const [isOk, setIsOk] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
-  const [error, setError] = useState('');
+ /* const [error, setError] = useState(''); для будущей реализации сообщений об ошибке */
   const navigate = useNavigate();
   
 
@@ -64,7 +61,7 @@ const handleLogin = async (email, password) => {
       console.warn(e);
       setIsOk(false);
       setIsInfoToolTipOpen(true);
-      setError(e);
+     /* setError(e);*/
   }
 }
 
@@ -76,6 +73,7 @@ const checkToken = async () => {
           const { data } = await auth(token);
           setUserEmail(data.email);
           setIsLoggedIn(true);
+          navigate("/");
       } catch (e) {
           console.warn(e);
           setIsLoggedIn(false);
@@ -86,8 +84,12 @@ const checkToken = async () => {
 
 useEffect(() => {
   checkToken();
-  navigate("/");
+  
 }, [])
+
+
+
+
 
 const logout = () => {
   localStorage.removeItem('token');

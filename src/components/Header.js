@@ -4,13 +4,9 @@ import React, { useState } from 'react';
 
 
 function Header({ email, logout }) {
-  const [isPopupOpened, setIsPopupOpened] = useState(false);
+
   const navigate = useNavigate();
 
-  const togglePopup = () => {
-    setIsPopupOpened(!isPopupOpened);
-  }
-console.log(email);
 
   return (
     <header className="header">

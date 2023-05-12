@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import InfoToolTip from "./InfoToolTip";
 
 const Register = ({ handleRegister, isLoggedIn, isOpen, isOk, onClose }) => {
-     const navigate = useNavigate();
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 

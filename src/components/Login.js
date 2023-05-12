@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import InfoToolTip from "./InfoToolTip";
 
-const Login = ({ handleLogin, isLoggedIn, isOpen, isOk, onClose}) => {
+const Login = ({ handleLogin, isLoggedIn, isOpen, isOk, onClose }) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,17 +18,17 @@ const Login = ({ handleLogin, isLoggedIn, isOpen, isOk, onClose}) => {
     function handleSubmit(e) {
         e.preventDefault();
         handleLogin(email, password);
-      }
+    }
 
-      
-      useEffect(() => {
+
+    useEffect(() => {
         if (isLoggedIn) {
             setEmail("");
             setPassword("");
         }
     }, [isLoggedIn]);
 
-    
+
 
     return (
         <div>
