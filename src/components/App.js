@@ -13,7 +13,8 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import Register from "./Register";
 import Login from "./Login";
-import {register, login, auth} from '../utils/registerApi';
+import { register, login, auth } from '../utils/registerApi';
+import InfoToolTip from "./InfoToolTip";
 
 function App() {
 
@@ -28,74 +29,74 @@ function App() {
   const [isOk, setIsOk] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
- /* const [error, setError] = useState(''); для будущей реализации сообщений об ошибке */
+  /* const [error, setError] = useState(''); для будущей реализации сообщений об ошибке */
   const navigate = useNavigate();
-  
 
 
-  
+
+
 
   const handleRegister = async (email, password) => {
     try {
-        await register(email, password)
-        setIsOk(true);
-        setIsInfoToolTipOpen(true);
-        navigate("/sign-in");
+      await register(email, password)
+      setIsOk(true);
+      setIsInfoToolTipOpen(true);
+      navigate("/sign-in");
     } catch (e) {
-        console.warn(e);
-        setIsOk(false);
-        setIsInfoToolTipOpen(true);
-       /* setError(e.error);*/
+      console.warn(e);
+      setIsOk(false);
+      setIsInfoToolTipOpen(true);
+      /* setError(e.error);*/
     }
-}
+  }
 
-const handleLogin = async (email, password) => {
-  try {
+  const handleLogin = async (email, password) => {
+    try {
       const { token } = await login(email, password);
       const { data } = await auth(token);
       setUserEmail(data.email);
       setIsLoggedIn(true);
       localStorage.setItem('token', token);
       navigate("/");
-  } catch (e) {
+    } catch (e) {
       console.warn(e);
       setIsOk(false);
       setIsInfoToolTipOpen(true);
-     /* setError(e);*/
+      /* setError(e);*/
+    }
   }
-}
 
 
-const checkToken = async () => {
-  const token = localStorage.getItem('token');
-  if (token) {
+  const checkToken = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
       try {
-          const { data } = await auth(token);
-          setUserEmail(data.email);
-          setIsLoggedIn(true);
-          navigate("/");
+        const { data } = await auth(token);
+        setUserEmail(data.email);
+        setIsLoggedIn(true);
+        navigate("/");
       } catch (e) {
-          console.warn(e);
-          setIsLoggedIn(false);
+        console.warn(e);
+        setIsLoggedIn(false);
       }
+    }
+  };
+
+
+  useEffect(() => {
+    checkToken();
+
+  }, [])
+
+
+
+
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    setUserEmail('');
+    setIsLoggedIn(false);
   }
-};
-
-
-useEffect(() => {
-  checkToken();
-  
-}, [])
-
-
-
-
-
-const logout = () => {
-  localStorage.removeItem('token');
-  setUserEmail('');
-  setIsLoggedIn(false);
-}
 
 
 
@@ -202,20 +203,20 @@ const logout = () => {
           <Header email={userEmail} logout={logout} />
           <Routes>
             <Route path='/'
-              element={   
-               <ProtectedRoute 
-                Component={Main}
-                isLoggedIn={isLoggedIn}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={handleCardClick}
-                onCardLike={handleCardLike}
-                cards={cards}
-                onCardDelete={handleCardDelete}
-              /> } />
+              element={
+                <ProtectedRoute
+                  Component={Main}
+                  isLoggedIn={isLoggedIn}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onCardClick={handleCardClick}
+                  onCardLike={handleCardLike}
+                  cards={cards}
+                  onCardDelete={handleCardDelete}
+                />} />
             <Route path='/sign-up'
-              element={<Register 
+              element={<Register
                 handleRegister={handleRegister}
                 isOpen={isInfoToolTipOpen}
                 isLoggedIn={isLoggedIn}
@@ -224,7 +225,7 @@ const logout = () => {
               />
               } />
             <Route path='/sign-in'
-              element={<Login 
+              element={<Login
                 handleLogin={handleLogin}
                 isLoggedIn={isLoggedIn}
                 isOpen={isInfoToolTipOpen}
@@ -234,6 +235,11 @@ const logout = () => {
               } />
           </Routes>
           <Footer />
+          <InfoToolTip
+            isOk={isOk}
+            isOpen={isInfoToolTipOpen}
+            onClose={closeAllPopups}
+          /*error={error}*/ />
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}

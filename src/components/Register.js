@@ -39,7 +39,7 @@ const Register = ({ handleRegister, isLoggedIn, isOpen, isOk, onClose }) => {
                 </form>
                 <p className='register__text'>Уже зарегистрированы? <Link to='/sign-in' className='register__text'>Войти</Link></p>
             </div>
-            <InfoToolTip isOk={isOk} isOpen={isOpen} onClose={onClose} /*error={error}*/ />
+            
         </div>
     );
 };

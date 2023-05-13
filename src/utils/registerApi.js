@@ -1,54 +1,46 @@
-export async function register(email, password) {
-    const data = await fetch('https://auth.nomoreparties.co/signup', {
-        method: "POST",
+ const BASE_URL = 'https://api.mesto.project.nomoredomains.monster';
+
+const getResponse = (res) => {
+    if (res.ok) {
+        return res.json()
+    } return Promise.reject(`Ошибка ${res.status}`)
+}
+
+export const register = (email, password) => {
+    return fetch(`${BASE_URL}/signup`, {
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
             email,
             password
         })
     })
-    const res = await data.json()
-    if (data.ok) {
-        return res
-    } else {
-        return Promise.reject(res);
-    }
+        .then(getResponse)
 }
 
-export async function login(email, password) {
-    const data = await fetch('https://auth.nomoreparties.co/signin', {
-        method: "POST",
+export const login = (email, password) => {
+    return fetch(`${BASE_URL}/signin`, {
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            password,
-            email
+            email,
+            password
         })
-
     })
-    const res = await data.json();
-    if (data.ok) {
-        return res
-    } else {
-        return Promise.reject(res)
-    }
+        .then(getResponse)
 }
 
-export async function auth(token) {
-    const data = await fetch('https://auth.nomoreparties.co/users/me', {
-        method: "GET",
+export const auth = (token) => {
+    return fetch(`${BASE_URL}/users/me`, {
+        method: 'GET',
         headers: {
-            "Content-Type": "application/json",
-            "Authorization" : `Bearer ${token}`
-        }
+            'Content-Type': 'application/json',
+            'authorization': `Bearer ${token}`
+        },
     })
-    const res = await data.json();
-    if (data.ok) {
-        return res
-    } else {
-        return Promise.reject(res)
-    }
+        .then(getResponse)
 }

@@ -40,7 +40,7 @@ const Login = ({ handleLogin, isLoggedIn, isOpen, isOk, onClose }) => {
                     <button type="submit" className="register__button">Войти</button>
                 </form>
             </div>
-            <InfoToolTip isOk={isOk} isOpen={isOpen} onClose={onClose} /*error={error}*/ />
+        
         </div>
     );
 
